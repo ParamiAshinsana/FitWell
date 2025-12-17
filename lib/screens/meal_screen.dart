@@ -15,7 +15,7 @@ class _MealScreenState extends State<MealScreen> {
   final TextEditingController _calorieController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
-  int? _editingIndex; // 🔹 used to track edit state
+  int? _editingIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _MealScreenState extends State<MealScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            /// ---------- TITLE ----------
+            ///  TITLE
             const Center(
               child: Text(
                 'Meals today 🥗',
@@ -45,7 +45,7 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            /// ---------- MEAL LIST ----------
+            ///MEAL LIST
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
@@ -104,7 +104,7 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 24),
 
-            /// ---------- FORM TITLE ----------
+            ///FORM TITLE
             const Text(
               '+ Add Meal Form',
               style: TextStyle(
@@ -115,14 +115,14 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            /// ---------- MEAL NAME ----------
+            /// MEAL NAME
             const Text('1. Meal Name'),
             const SizedBox(height: 6),
             _inputField(_nameController, 'Enter meal name'),
 
             const SizedBox(height: 16),
 
-            /// ---------- CALORIES ----------
+            ///  CALORIES
             const Text('2. Calories'),
             const SizedBox(height: 6),
             _inputField(
@@ -133,7 +133,7 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            /// ---------- DATE ----------
+            /// DATE
             const Text('3. Date'),
             const SizedBox(height: 6),
             InkWell(
@@ -158,7 +158,7 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 24),
 
-            /// ---------- ADD / UPDATE BUTTON ----------
+            ///ADD / UPDATE BUTTON
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -179,7 +179,7 @@ class _MealScreenState extends State<MealScreen> {
     );
   }
 
-  /// ---------- INPUT FIELD ----------
+  /// INPUT FIELD
   Widget _inputField(
       TextEditingController controller,
       String hint, {
@@ -200,7 +200,7 @@ class _MealScreenState extends State<MealScreen> {
     );
   }
 
-  /// ---------- DATE PICKER ----------
+  ///  DATE PICKER
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -214,7 +214,7 @@ class _MealScreenState extends State<MealScreen> {
     }
   }
 
-  /// ---------- SAVE (ADD / UPDATE) ----------
+  /// SAVE (ADD / UPDATE)
   void _saveMeal() {
     if (_nameController.text.isEmpty ||
         _calorieController.text.isEmpty) return;

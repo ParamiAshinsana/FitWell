@@ -9,7 +9,6 @@ class Meal {
     required this.date,
   });
 
-  /// Convert Meal object to Map (for Hive / Firebase)
   Map<String, dynamic> toMap() {
     return {
       'name': name,

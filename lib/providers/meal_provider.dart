@@ -5,7 +5,6 @@ import '../models/meal_model.dart';
 class MealProvider with ChangeNotifier {
   final Box _mealBox = Hive.box('meals');
 
-  /// Get all meals from Hive
   List<Meal> get meals {
     return _mealBox.values
         .map((e) => Meal.fromMap(Map<String, dynamic>.from(e)))
