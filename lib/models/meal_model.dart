@@ -1,5 +1,5 @@
 class Meal {
-  final String id;        // 🔹 Firestore document ID
+  final String id;
   final String name;
   final int calories;
   final DateTime date;
@@ -11,7 +11,6 @@ class Meal {
     required this.date,
   });
 
-  /// For Firestore / Hive → App
   factory Meal.fromMap(String id, Map<String, dynamic> map) {
     return Meal(
       id: id,
@@ -23,7 +22,6 @@ class Meal {
     );
   }
 
-  /// For App → Firestore / Hive
   Map<String, dynamic> toMap() {
     return {
       'name': name,

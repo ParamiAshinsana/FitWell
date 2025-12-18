@@ -8,7 +8,6 @@ class MealProvider with ChangeNotifier {
   final CollectionReference _mealRef =
   FirebaseFirestore.instance.collection('meals');
 
-  /// READ (Hive – offline first)
   List<Meal> get meals {
     return _mealBox.values
         .map((e) => Meal.fromMap(
@@ -18,7 +17,6 @@ class MealProvider with ChangeNotifier {
         .toList();
   }
 
-  /// FETCH FROM FIRESTORE → SAVE TO HIVE
   Future<void> fetchMealsFromFirestore() async {
     final snapshot = await _mealRef.get();
     _mealBox.clear();
@@ -32,7 +30,6 @@ class MealProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// CREATE
   Future<void> addMeal(Meal meal) async {
     final doc = await _mealRef.add(meal.toMap());
 
@@ -44,7 +41,6 @@ class MealProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// UPDATE
   Future<void> updateMeal(String docId, int index, Meal meal) async {
     await _mealRef.doc(docId).update(meal.toMap());
 
@@ -56,7 +52,6 @@ class MealProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// DELETE
   Future<void> deleteMeal(String docId, int index) async {
     await _mealRef.doc(docId).delete();
     await _mealBox.deleteAt(index);

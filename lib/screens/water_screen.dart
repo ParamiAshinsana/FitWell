@@ -126,7 +126,7 @@ class _WaterScreenState extends State<WaterScreen> {
                               index,
                               item['amount'],
                               date,
-                              item['id'], // pass Firestore docId
+                              item['id'],
                             ),
                           ),
                           IconButton(

@@ -7,7 +7,6 @@ class WaterProvider with ChangeNotifier {
   final CollectionReference _waterRef =
   FirebaseFirestore.instance.collection('water');
 
-  /// GET ENTRIES
   List<Map<String, dynamic>> get entries {
     return List<Map<String, dynamic>>.from(
       _waterBox.values.map((e) {
@@ -25,7 +24,6 @@ class WaterProvider with ChangeNotifier {
         (sum, item) => sum + (item['amount'] as int),
   );
 
-  /// FETCH FROM FIRESTORE → SAVE TO HIVE
   Future<void> fetchWaterFromFirestore() async {
     final snapshot = await _waterRef.get();
     _waterBox.clear();
@@ -41,7 +39,6 @@ class WaterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// ADD
   Future<void> addWater(int amount, DateTime date) async {
     final doc = await _waterRef.add({
       'amount': amount,
@@ -57,7 +54,6 @@ class WaterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// EDIT
   Future<void> editWater(String docId, int index, int amount, DateTime date) async {
     await _waterRef.doc(docId).update({
       'amount': amount,
@@ -73,7 +69,6 @@ class WaterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// DELETE
   Future<void> deleteWater(String docId, int index) async {
     await _waterRef.doc(docId).delete();
     await _waterBox.deleteAt(index);
