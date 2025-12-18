@@ -16,6 +16,14 @@ class _MealScreenState extends State<MealScreen> {
   DateTime _selectedDate = DateTime.now();
 
   int? _editingIndex;
+  String? _editingDocId;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<MealProvider>(context, listen: false)
+        .fetchMealsFromFirestore();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +40,6 @@ class _MealScreenState extends State<MealScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            ///  TITLE
             const Center(
               child: Text(
                 'Meals today 🥗',
@@ -45,7 +52,6 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            ///MEAL LIST
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
@@ -59,7 +65,8 @@ class _MealScreenState extends State<MealScreen> {
                 style: TextStyle(color: Colors.white),
               )
                   : Column(
-                children: List.generate(mealProvider.meals.length, (index) {
+                children:
+                List.generate(mealProvider.meals.length, (index) {
                   final meal = mealProvider.meals[index];
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,12 +80,13 @@ class _MealScreenState extends State<MealScreen> {
                       ),
                       Row(
                         children: [
-                          /// EDIT
                           IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.white),
+                            icon: const Icon(Icons.edit,
+                                color: Colors.white),
                             onPressed: () {
                               setState(() {
                                 _editingIndex = index;
+                                _editingDocId = meal.id;
                                 _nameController.text = meal.name;
                                 _calorieController.text =
                                     meal.calories.toString();
@@ -86,12 +94,11 @@ class _MealScreenState extends State<MealScreen> {
                               });
                             },
                           ),
-
-                          /// DELETE
                           IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.white),
+                            icon: const Icon(Icons.delete,
+                                color: Colors.white),
                             onPressed: () {
-                              mealProvider.deleteMeal(index);
+                              mealProvider.deleteMeal(meal.id, index);
                             },
                           ),
                         ],
@@ -104,7 +111,6 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 24),
 
-            ///FORM TITLE
             const Text(
               '+ Add Meal Form',
               style: TextStyle(
@@ -115,14 +121,12 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            /// MEAL NAME
             const Text('1. Meal Name'),
             const SizedBox(height: 6),
             _inputField(_nameController, 'Enter meal name'),
 
             const SizedBox(height: 16),
 
-            ///  CALORIES
             const Text('2. Calories'),
             const SizedBox(height: 6),
             _inputField(
@@ -133,13 +137,13 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 16),
 
-            /// DATE
             const Text('3. Date'),
             const SizedBox(height: 6),
             InkWell(
               onTap: _pickDate,
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                padding:
+                const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(30),
@@ -158,7 +162,6 @@ class _MealScreenState extends State<MealScreen> {
 
             const SizedBox(height: 24),
 
-            ///ADD / UPDATE BUTTON
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -179,7 +182,6 @@ class _MealScreenState extends State<MealScreen> {
     );
   }
 
-  /// INPUT FIELD
   Widget _inputField(
       TextEditingController controller,
       String hint, {
@@ -200,7 +202,6 @@ class _MealScreenState extends State<MealScreen> {
     );
   }
 
-  ///  DATE PICKER
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -214,12 +215,12 @@ class _MealScreenState extends State<MealScreen> {
     }
   }
 
-  /// SAVE (ADD / UPDATE)
   void _saveMeal() {
     if (_nameController.text.isEmpty ||
         _calorieController.text.isEmpty) return;
 
     final meal = Meal(
+      id: '',
       name: _nameController.text,
       calories: int.parse(_calorieController.text),
       date: _selectedDate,
@@ -228,13 +229,19 @@ class _MealScreenState extends State<MealScreen> {
     final provider = Provider.of<MealProvider>(context, listen: false);
 
     if (_editingIndex == null) {
-      provider.addMeal(meal); // CREATE
+      provider.addMeal(meal);
     } else {
-      provider.updateMeal(_editingIndex!, meal); // UPDATE
+      provider.updateMeal(
+        _editingDocId!,
+        _editingIndex!,
+        meal,
+      );
       _editingIndex = null;
+      _editingDocId = null;
     }
 
     _nameController.clear();
     _calorieController.clear();
   }
 }
+
