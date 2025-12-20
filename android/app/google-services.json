@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879271719252",
+    "project_id": "fitwell-36502",
+    "storage_bucket": "fitwell-36502.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879271719252:android:5af9cac97718149652d8c1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP94jfFLeGlEdDnvWo0_LJtU1blVBOQ6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
+    "name": "login_ui",
+    "short_name": "login_ui",
+=======
     "name": "flutter_application_1",
     "short_name": "flutter_application_1",
+>>>>>>> 01749b4df6ed18c96f21c790b2fcd5770ca83db1
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
