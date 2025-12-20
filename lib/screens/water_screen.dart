@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/water_provider.dart';
 
-class WaterScreen extends StatelessWidget {
+class WaterScreen extends StatefulWidget {
   const WaterScreen({super.key});
 
   static const Color primaryGreen = Color(0xFF7FAFA3);
   static const Color lightGreen = Color(0xFFE6F1EE);
+
+  @override
+  State<WaterScreen> createState() => _WaterScreenState();
+}
+
+class _WaterScreenState extends State<WaterScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<WaterProvider>(context, listen: false)
+        .fetchWaterFromFirestore();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,33 +26,28 @@ class WaterScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
         title: const Text(
           'WATER INTAKE TRACKER 💧',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: primaryGreen,
+        backgroundColor: WaterScreen.primaryGreen,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-
       floatingActionButton: FloatingActionButton(
-        backgroundColor: primaryGreen,
+        backgroundColor: WaterScreen.primaryGreen,
         onPressed: () => _showAddDialog(context),
         child: const Icon(Icons.add, color: Colors.white),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /// TOTAL CARD
             Card(
-              color: primaryGreen,
+              color: WaterScreen.primaryGreen,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -66,12 +73,9 @@ class WaterScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-
               ),
             ),
-
             const SizedBox(height: 20),
-
             const Text(
               'Water Records',
               style: TextStyle(
@@ -79,10 +83,7 @@ class WaterScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             const SizedBox(height: 10),
-
-            /// LIST
             Expanded(
               child: provider.entries.isEmpty
                   ? const Center(child: Text('No records yet'))
@@ -93,7 +94,7 @@ class WaterScreen extends StatelessWidget {
                   final date = item['date'] as DateTime;
 
                   return Card(
-                    color: lightGreen,
+                    color: WaterScreen.lightGreen,
                     margin: const EdgeInsets.only(bottom: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -101,7 +102,7 @@ class WaterScreen extends StatelessWidget {
                     child: ListTile(
                       leading: const Icon(
                         Icons.water_drop,
-                        color: primaryGreen,
+                        color: WaterScreen.primaryGreen,
                       ),
                       title: Text(
                         '${item['amount']} ml',
@@ -118,13 +119,14 @@ class WaterScreen extends StatelessWidget {
                           IconButton(
                             icon: const Icon(
                               Icons.edit,
-                              color: primaryGreen,
+                              color: WaterScreen.primaryGreen,
                             ),
                             onPressed: () => _showEditDialog(
                               context,
                               index,
                               item['amount'],
                               date,
+                              item['id'],
                             ),
                           ),
                           IconButton(
@@ -133,7 +135,7 @@ class WaterScreen extends StatelessWidget {
                               color: Colors.redAccent,
                             ),
                             onPressed: () =>
-                                provider.deleteWater(index),
+                                provider.deleteWater(item['id'], index),
                           ),
                         ],
                       ),
@@ -148,7 +150,6 @@ class WaterScreen extends StatelessWidget {
     );
   }
 
-  /// ADD DIALOG
   void _showAddDialog(BuildContext context) {
     final provider = Provider.of<WaterProvider>(context, listen: false);
     final controller = TextEditingController();
@@ -163,7 +164,7 @@ class WaterScreen extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Water (ml)',
             filled: true,
-            fillColor: lightGreen,
+            fillColor: WaterScreen.lightGreen,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -177,7 +178,7 @@ class WaterScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: primaryGreen,
+              backgroundColor: WaterScreen.primaryGreen,
               foregroundColor: Colors.white,
             ),
             onPressed: () {
@@ -194,12 +195,12 @@ class WaterScreen extends StatelessWidget {
     );
   }
 
-  /// EDIT DIALOG
   void _showEditDialog(
       BuildContext context,
       int index,
       int oldAmount,
       DateTime date,
+      String docId,
       ) {
     final provider = Provider.of<WaterProvider>(context, listen: false);
     final controller = TextEditingController(text: oldAmount.toString());
@@ -214,7 +215,7 @@ class WaterScreen extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Water (ml)',
             filled: true,
-            fillColor: lightGreen,
+            fillColor: WaterScreen.lightGreen,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -228,11 +229,12 @@ class WaterScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: primaryGreen,
+              backgroundColor: WaterScreen.primaryGreen,
               foregroundColor: Colors.white,
             ),
             onPressed: () {
               provider.editWater(
+                docId,
                 index,
                 int.parse(controller.text),
                 date,
@@ -246,4 +248,3 @@ class WaterScreen extends StatelessWidget {
     );
   }
 }
-
