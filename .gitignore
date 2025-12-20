@@ -50,3 +50,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Flutter desktop platforms
+linux/
+windows/
+macos/
+
+# Pub lock file
+pubspec.lock
