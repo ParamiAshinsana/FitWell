@@ -6,17 +6,14 @@ plugins {
 }
 
 android {
-<<<<<<< HEAD
-    namespace = "com.example.login_ui"
-=======
-    namespace = "com.example.flutter_application_1"
->>>>>>> 01749b4df6ed18c96f21c790b2fcd5770ca83db1
+    namespace = "com.example.fitwell"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -25,14 +22,10 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-<<<<<<< HEAD
-        applicationId = "com.example.login_ui"
-=======
-        applicationId = "com.example.flutter_application_1"
->>>>>>> 01749b4df6ed18c96f21c790b2fcd5770ca83db1
+        applicationId = "com.example.fitwell"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23  // Firebase Auth requires minSdk 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -49,4 +42,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
