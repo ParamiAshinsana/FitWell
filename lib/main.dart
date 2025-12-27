@@ -17,8 +17,8 @@ import 'features/medicine/provider/medicine_provider.dart';
 import 'features/medicine/presentation/medicine_screen.dart';
 import 'features/workout/provider/workout_provider.dart';
 import 'features/workout/presentation/workout_list_screen.dart';
-import 'features/progress/provider/progress_provider.dart';
-import 'features/progress/presentation/progress_screen.dart';
+import 'features/measurements/provider/measurements_provider.dart';
+import 'features/measurements/presentation/measurements_screen.dart';
 import 'features/dashboard/provider/dashboard_provider.dart';
 import 'features/journal/provider/journal_provider.dart';
 import 'features/journal/presentation/journal_screen.dart';
@@ -78,8 +78,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
         ChangeNotifierProvider(create: (_) => JournalProvider()),
         ChangeNotifierProxyProvider3<MealProvider, WaterProvider,
-            WorkoutProvider, ProgressProvider>(
-          create: (context) => ProgressProvider(
+            WorkoutProvider, MeasurementsProvider>(
+          create: (context) => MeasurementsProvider(
             mealProvider: Provider.of<MealProvider>(context, listen: false),
             waterProvider: Provider.of<WaterProvider>(context, listen: false),
             workoutProvider:
@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           update: (context, mealProvider, waterProvider, workoutProvider,
                   previous) =>
               previous ??
-              ProgressProvider(
+              MeasurementsProvider(
                 mealProvider: mealProvider,
                 waterProvider: waterProvider,
                 workoutProvider: workoutProvider,
@@ -111,7 +111,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.water: (_) => const WaterScreen(),
           AppRoutes.medicine: (_) => const MedicineScreen(),
           AppRoutes.workout: (_) => const WorkoutListScreen(),
-          AppRoutes.progress: (_) => const ProgressScreen(),
+          AppRoutes.measurements: (_) => const MeasurementsScreen(),
           AppRoutes.journal: (_) => const JournalScreen(),
         },
       ),

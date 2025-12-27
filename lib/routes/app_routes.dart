@@ -6,7 +6,7 @@ class AppRoutes {
   static const String water = '/water';
   static const String medicine = '/medicine';
   static const String workout = '/workout';
-  static const String progress = '/progress';
+  static const String measurements = '/measurements';
   static const String journal = '/journal';
 }
 

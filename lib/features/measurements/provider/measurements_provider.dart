@@ -3,12 +3,12 @@ import '../../meal/provider/meal_provider.dart';
 import '../../water/provider/water_provider.dart';
 import '../../workout/provider/workout_provider.dart';
 
-class ProgressProvider with ChangeNotifier {
+class MeasurementsProvider with ChangeNotifier {
   final MealProvider _mealProvider;
   final WaterProvider _waterProvider;
   final WorkoutProvider _workoutProvider;
 
-  ProgressProvider({
+  MeasurementsProvider({
     required MealProvider mealProvider,
     required WaterProvider waterProvider,
     required WorkoutProvider workoutProvider,

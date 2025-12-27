@@ -27,7 +27,7 @@ class AppTexts {
   static const String mealTracker = 'Meal Tracker';
   static const String waterIntake = 'Water Intake';
   static const String workout = 'Workout';
-  static const String progress = 'Progress';
+  static const String measurements = 'Measurements';
 
   // Medicine
   static const String addReminder = 'Add Reminder';

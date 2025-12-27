@@ -36,7 +36,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         Navigator.pushReplacementNamed(context, AppRoutes.water);
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, AppRoutes.progress);
+        Navigator.pushReplacementNamed(context, AppRoutes.measurements);
         break;
     }
   }

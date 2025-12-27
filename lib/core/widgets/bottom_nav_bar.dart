@@ -54,7 +54,7 @@ class BottomNavBar extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
-                label: 'Progress',
+                label: 'Measurements',
               ),
             ],
           ),
