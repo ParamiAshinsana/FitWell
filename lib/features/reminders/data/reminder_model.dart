@@ -62,29 +62,57 @@ class ReminderModelAdapter extends TypeAdapter<ReminderModel> {
   @override
   final int typeId = 0;
 
+  DateTime _parseDate(String dateString) {
+    try {
+      return DateTime.parse(dateString);
+    } catch (e) {
+      // If parsing fails, return current date as fallback
+      print('Error parsing date: $dateString, using current date as fallback');
+      return DateTime.now();
+    }
+  }
+
   @override
   ReminderModel read(BinaryReader reader) {
-    final id = reader.readString();
-    final name = reader.readString();
-    final startDate = DateTime.parse(reader.readString());
-    final endDate = DateTime.parse(reader.readString());
+    try {
+      final id = reader.readString();
+      final name = reader.readString();
+      final startDateString = reader.readString();
+      final endDateString = reader.readString();
+      
+      final startDate = _parseDate(startDateString);
+      final endDate = _parseDate(endDateString);
 
-    final count = reader.readInt();
-    final times = List.generate(count, (_) {
-      return ReminderTime(
-        time: reader.readString(),
-        status: reader.readString(),
-        date: DateTime.parse(reader.readString()),
+      final count = reader.readInt();
+      final times = List.generate(count, (_) {
+        final time = reader.readString();
+        final status = reader.readString();
+        final dateString = reader.readString();
+        return ReminderTime(
+          time: time,
+          status: status,
+          date: _parseDate(dateString),
+        );
+      });
+
+      return ReminderModel(
+        id: id,
+        name: name,
+        startDate: startDate,
+        endDate: endDate,
+        times: times,
       );
-    });
-
-    return ReminderModel(
-      id: id,
-      name: name,
-      startDate: startDate,
-      endDate: endDate,
-      times: times,
-    );
+    } catch (e) {
+      print('Error reading ReminderModel: $e');
+      // Return a default reminder model to prevent app crash
+      return ReminderModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: 'Invalid Reminder',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        times: [],
+      );
+    }
   }
 
   @override
