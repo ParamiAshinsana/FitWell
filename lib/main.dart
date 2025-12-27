@@ -12,9 +12,10 @@ import 'features/meal/provider/meal_provider.dart';
 import 'features/meal/presentation/meal_screen.dart';
 import 'features/water/provider/water_provider.dart';
 import 'features/water/presentation/water_screen.dart';
-import 'features/medicine/data/medicine_model.dart';
-import 'features/medicine/provider/medicine_provider.dart';
-import 'features/medicine/presentation/medicine_screen.dart';
+import 'features/reminders/data/reminder_model.dart';
+import 'features/reminders/provider/reminder_provider.dart';
+import 'features/reminders/provider/appointment_provider.dart';
+import 'features/reminders/presentation/reminder_screen.dart';
 import 'features/workout/provider/workout_provider.dart';
 import 'features/workout/presentation/workout_list_screen.dart';
 import 'features/measurements/provider/measurements_provider.dart';
@@ -40,14 +41,15 @@ void main() async {
     await Hive.initFlutter();
 
     if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(MedicineModelAdapter());
+      Hive.registerAdapter(ReminderModelAdapter());
     }
 
     await Hive.openBox('mealsBox');
     await Hive.openBox('waterBox');
-    await Hive.openBox<MedicineModel>('medicineBox');
+    await Hive.openBox<ReminderModel>('reminderBox');
     await Hive.openBox('journalBox');
     await Hive.openBox('workoutBox');
+    await Hive.openBox('appointmentBox');
     debugPrint('Hive boxes initialized successfully');
   } catch (e) {
     debugPrint('Hive initialization error: $e');
@@ -73,7 +75,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => MealProvider()),
         ChangeNotifierProvider(create: (_) => WaterProvider()),
-        ChangeNotifierProvider(create: (_) => MedicineProvider()),
+        ChangeNotifierProvider(create: (_) => ReminderProvider()),
+        ChangeNotifierProvider(create: (_) => AppointmentProvider()),
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
         ChangeNotifierProvider(create: (_) => JournalProvider()),
@@ -109,7 +112,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.dashboard: (_) => const DashboardScreen(),
           AppRoutes.meal: (_) => const MealScreen(),
           AppRoutes.water: (_) => const WaterScreen(),
-          AppRoutes.medicine: (_) => const MedicineScreen(),
+          AppRoutes.reminders: (_) => const ReminderScreen(),
           AppRoutes.workout: (_) => const WorkoutListScreen(),
           AppRoutes.measurements: (_) => const MeasurementsScreen(),
           AppRoutes.journal: (_) => const JournalScreen(),

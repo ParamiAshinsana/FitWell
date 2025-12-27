@@ -6,13 +6,13 @@ import '../../../core/widgets/gradient_background.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../auth/provider/auth_provider.dart';
 import '../../water/provider/water_provider.dart';
-import '../../medicine/provider/medicine_provider.dart';
+import '../../reminders/provider/reminder_provider.dart';
 import '../../workout/provider/workout_provider.dart';
 import '../../meal/provider/meal_provider.dart';
 import '../provider/dashboard_provider.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../routes/app_routes.dart';
-import '../../medicine/data/medicine_model.dart';
+import '../../reminders/data/reminder_model.dart';
 import '../../workout/data/workout_model.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -32,8 +32,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final workoutProvider = Provider.of<WorkoutProvider>(context, listen: false);
       final mealProvider = Provider.of<MealProvider>(context, listen: false);
+      final reminderProvider = Provider.of<ReminderProvider>(context, listen: false);
       workoutProvider.refresh();
       mealProvider.refresh();
+      reminderProvider.refresh();
     });
   }
 
@@ -50,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Navigator.pushReplacementNamed(context, AppRoutes.meal);
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, AppRoutes.medicine);
+        Navigator.pushReplacementNamed(context, AppRoutes.reminders);
         break;
       case 3:
         Navigator.pushReplacementNamed(context, AppRoutes.water);
@@ -176,8 +178,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       endDrawer: _buildSidebar(context),
       body: GradientBackground(
         child: SafeArea(
-          child: Consumer5<DashboardProvider, WaterProvider, MedicineProvider, WorkoutProvider, MealProvider>(
-        builder: (context, dashboardProvider, waterProvider, medicineProvider, workoutProvider, mealProvider, _) {
+          child: Consumer5<DashboardProvider, WaterProvider, ReminderProvider, WorkoutProvider, MealProvider>(
+        builder: (context, dashboardProvider, waterProvider, reminderProvider, workoutProvider, mealProvider, _) {
           final now = DateTime.now();
           final today = DateTime(now.year, now.month, now.day);
           
@@ -208,9 +210,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             };
           });
 
-          MedicineModel? nextMed;
+          ReminderModel? nextMed;
           DateTime? nextTime;
-          for (var med in medicineProvider.medicines) {
+          for (var med in reminderProvider.reminders) {
             for (var time in med.times) {
               if (time.status == 'pending') {
                 try {
@@ -371,7 +373,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    nextMedicine['name'] ?? 'Medicine',
+                                    nextMedicine['name'] ?? 'Reminder',
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

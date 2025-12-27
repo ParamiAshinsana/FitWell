@@ -46,8 +46,8 @@ class NotificationService {
         tz.TZDateTime.from(dateTime, tz.local),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            'medicine_channel',
-            'Medicine Reminder',
+            'reminder_channel',
+            'Reminder',
             importance: Importance.max,
             priority: Priority.high,
           ),

@@ -146,7 +146,7 @@ class _WorkoutListScreenState extends State<WorkoutListScreen> {
                                 ),
                               ],
                             ),
-                          ),
+                            ),
                           ),
                         );
                       },

@@ -5,18 +5,18 @@ import '../../../core/constants/app_texts.dart';
 import '../../../core/widgets/gradient_background.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../routes/app_routes.dart';
-import '../provider/medicine_provider.dart';
+import '../provider/reminder_provider.dart';
 
 class ReportPage extends StatelessWidget {
   const ReportPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MedicineProvider>(context);
+    final provider = Provider.of<ReminderProvider>(context);
 
     int taken = 0, skipped = 0, pending = 0;
 
-    for (final r in provider.medicines) {
+    for (final r in provider.reminders) {
       for (final t in r.times) {
         if (t.status == 'taken') taken++;
         if (t.status == 'skipped') skipped++;

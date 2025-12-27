@@ -30,7 +30,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         Navigator.pushReplacementNamed(context, AppRoutes.meal);
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, AppRoutes.medicine);
+        Navigator.pushReplacementNamed(context, AppRoutes.reminders);
         break;
       case 3:
         Navigator.pushReplacementNamed(context, AppRoutes.water);

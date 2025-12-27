@@ -46,7 +46,7 @@ class BottomNavBar extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.medication),
-                label: 'Medicines',
+                label: 'Reminders',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.water_drop),

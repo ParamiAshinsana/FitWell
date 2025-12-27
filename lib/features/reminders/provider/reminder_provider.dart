@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../data/medicine_service.dart';
-import '../data/medicine_model.dart';
+import '../data/reminder_service.dart';
+import '../data/reminder_model.dart';
 
-class MedicineProvider with ChangeNotifier {
-  final MedicineService _medicineService = MedicineService();
+class ReminderProvider with ChangeNotifier {
+  final ReminderService _reminderService = ReminderService();
 
-  List<MedicineModel> _medicines = [];
-  List<MedicineModel> get medicines => _medicines;
+  List<ReminderModel> _reminders = [];
+  List<ReminderModel> get reminders => _reminders;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -14,17 +14,17 @@ class MedicineProvider with ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  MedicineProvider() {
-    _loadMedicines();
+  ReminderProvider() {
+    _loadReminders();
   }
 
-  Future<void> _loadMedicines() async {
+  Future<void> _loadReminders() async {
     try {
       _isLoading = true;
       _errorMessage = null;
       notifyListeners();
 
-      _medicines = await _medicineService.getMedicines();
+      _reminders = await _reminderService.getReminders();
 
       _isLoading = false;
       notifyListeners();
@@ -35,14 +35,14 @@ class MedicineProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> addMedicine(MedicineModel medicine) async {
+  Future<bool> addReminder(ReminderModel reminder) async {
     try {
       _isLoading = true;
       _errorMessage = null;
       notifyListeners();
 
-      final id = await _medicineService.addMedicine(medicine);
-      await _loadMedicines();
+      final id = await _reminderService.addReminder(reminder);
+      await _loadReminders();
 
       _isLoading = false;
       notifyListeners();
@@ -55,14 +55,14 @@ class MedicineProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateMedicine(String medicineId, MedicineModel medicine) async {
+  Future<bool> updateReminder(String reminderId, ReminderModel reminder) async {
     try {
       _isLoading = true;
       _errorMessage = null;
       notifyListeners();
 
-      await _medicineService.updateMedicine(medicineId, medicine);
-      await _loadMedicines();
+      await _reminderService.updateReminder(reminderId, reminder);
+      await _loadReminders();
 
       _isLoading = false;
       notifyListeners();
@@ -75,14 +75,14 @@ class MedicineProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> deleteMedicine(String medicineId) async {
+  Future<bool> deleteReminder(String reminderId) async {
     try {
       _isLoading = true;
       _errorMessage = null;
       notifyListeners();
 
-      await _medicineService.deleteMedicine(medicineId);
-      await _loadMedicines();
+      await _reminderService.deleteReminder(reminderId);
+      await _loadReminders();
 
       _isLoading = false;
       notifyListeners();
@@ -96,7 +96,7 @@ class MedicineProvider with ChangeNotifier {
   }
 
   void refresh() {
-    _loadMedicines();
+    _loadReminders();
   }
 }
 
