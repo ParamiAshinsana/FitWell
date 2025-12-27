@@ -72,14 +72,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
 
     if (success) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(widget.workout == null
-              ? 'Workout added successfully'
-              : 'Workout updated successfully'),
-          backgroundColor: AppColors.success,
-        ),
-      );
+      // Snackbar will be shown by the workout list screen after refresh
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -98,7 +91,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, AppRoutes.dashboard);
+            Navigator.pop(context);
           },
         ),
         title: Text(

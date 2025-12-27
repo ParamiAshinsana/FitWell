@@ -47,6 +47,7 @@ void main() async {
     await Hive.openBox('waterBox');
     await Hive.openBox<MedicineModel>('medicineBox');
     await Hive.openBox('journalBox');
+    await Hive.openBox('workoutBox');
     debugPrint('Hive boxes initialized successfully');
   } catch (e) {
     debugPrint('Hive initialization error: $e');

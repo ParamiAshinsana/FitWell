@@ -37,8 +37,8 @@ class BottomNavBar extends StatelessWidget {
             elevation: 0,
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+                icon: Icon(Icons.fitness_center),
+                label: 'Workout',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant),

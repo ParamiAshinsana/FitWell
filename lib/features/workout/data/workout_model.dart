@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Workout {
   final String id;
   final String name;
@@ -20,10 +18,6 @@ class Workout {
   factory Workout.fromMap(String id, Map<String, dynamic> map) {
     DateTime parseDate(dynamic dateValue) {
       if (dateValue == null) return DateTime.now();
-      
-      if (dateValue is Timestamp) {
-        return dateValue.toDate();
-      }
       
       if (dateValue is String) {
         try {
@@ -48,6 +42,7 @@ class Workout {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'type': type,
       'duration': duration,

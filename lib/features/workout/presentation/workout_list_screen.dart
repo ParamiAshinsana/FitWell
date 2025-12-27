@@ -9,8 +9,21 @@ import '../../../routes/app_routes.dart';
 import '../provider/workout_provider.dart';
 import 'add_workout_screen.dart';
 
-class WorkoutListScreen extends StatelessWidget {
+class WorkoutListScreen extends StatefulWidget {
   const WorkoutListScreen({super.key});
+
+  @override
+  State<WorkoutListScreen> createState() => _WorkoutListScreenState();
+}
+
+class _WorkoutListScreenState extends State<WorkoutListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<WorkoutProvider>(context, listen: false).refresh();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +47,16 @@ class WorkoutListScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white.withOpacity(0.3),
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => const AddWorkoutScreen(),
             ),
           );
+          if (mounted) {
+            Provider.of<WorkoutProvider>(context, listen: false).refresh();
+          }
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -67,7 +83,9 @@ class WorkoutListScreen extends StatelessWidget {
                       itemCount: provider.workouts.length,
                       itemBuilder: (context, index) {
                         final workout = provider.workouts[index];
-                        return GlassCard(
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: GlassCard(
                           padding: const EdgeInsets.all(12),
                           borderRadius: 14,
                           child: ListTile(
@@ -95,8 +113,8 @@ class WorkoutListScreen extends StatelessWidget {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.edit, color: Colors.white),
-                                  onPressed: () {
-                                    Navigator.push(
+                                  onPressed: () async {
+                                    await Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => AddWorkoutScreen(
@@ -104,6 +122,9 @@ class WorkoutListScreen extends StatelessWidget {
                                         ),
                                       ),
                                     );
+                                    if (mounted) {
+                                      Provider.of<WorkoutProvider>(context, listen: false).refresh();
+                                    }
                                   },
                                 ),
                                 IconButton(
@@ -125,6 +146,7 @@ class WorkoutListScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ),
                           ),
                         );
                       },
