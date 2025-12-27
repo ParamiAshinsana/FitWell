@@ -7,5 +7,6 @@ class AppRoutes {
   static const String medicine = '/medicine';
   static const String workout = '/workout';
   static const String progress = '/progress';
+  static const String journal = '/journal';
 }
 

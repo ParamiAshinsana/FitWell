@@ -20,6 +20,8 @@ import 'features/workout/presentation/workout_list_screen.dart';
 import 'features/progress/provider/progress_provider.dart';
 import 'features/progress/presentation/progress_screen.dart';
 import 'features/dashboard/provider/dashboard_provider.dart';
+import 'features/journal/provider/journal_provider.dart';
+import 'features/journal/presentation/journal_screen.dart';
 import 'routes/app_routes.dart';
 import 'firebase_options.dart';
 
@@ -44,6 +46,7 @@ void main() async {
     await Hive.openBox('mealsBox');
     await Hive.openBox('waterBox');
     await Hive.openBox<MedicineModel>('medicineBox');
+    await Hive.openBox('journalBox');
     debugPrint('Hive boxes initialized successfully');
   } catch (e) {
     debugPrint('Hive initialization error: $e');
@@ -72,6 +75,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MedicineProvider()),
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
+        ChangeNotifierProvider(create: (_) => JournalProvider()),
         ChangeNotifierProxyProvider3<MealProvider, WaterProvider,
             WorkoutProvider, ProgressProvider>(
           create: (context) => ProgressProvider(
@@ -107,6 +111,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.medicine: (_) => const MedicineScreen(),
           AppRoutes.workout: (_) => const WorkoutListScreen(),
           AppRoutes.progress: (_) => const ProgressScreen(),
+          AppRoutes.journal: (_) => const JournalScreen(),
         },
       ),
     );

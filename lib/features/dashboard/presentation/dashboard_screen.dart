@@ -24,6 +24,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -60,9 +61,91 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Widget _buildSidebar(BuildContext context) {
+    final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+    final userName = dashboardProvider.userName ?? 'User';
+    
+    return Drawer(
+      backgroundColor: Colors.white.withOpacity(0.1),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.gradientTeal,
+              AppColors.gradientBlue,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
+              const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.person,
+                  size: 50,
+                  color: AppColors.gradientBlue,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                userName,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 40),
+              ListTile(
+                leading: const Icon(Icons.mood, color: Colors.white, size: 28),
+                title: const Text(
+                  'What do you feel today?',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, AppRoutes.journal);
+                },
+              ),
+              const Spacer(),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.white),
+                title: const Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () async {
+                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                  await authProvider.signOut();
+                  if (context.mounted) {
+                    Navigator.pushReplacementNamed(context, AppRoutes.login);
+                  }
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -72,6 +155,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: () async {
@@ -84,6 +173,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+      endDrawer: _buildSidebar(context),
       body: GradientBackground(
         child: SafeArea(
           child: Consumer5<DashboardProvider, WaterProvider, MedicineProvider, WorkoutProvider, MealProvider>(
